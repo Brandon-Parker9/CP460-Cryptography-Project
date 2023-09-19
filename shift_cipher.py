@@ -1,4 +1,4 @@
-# this shift cipher includes all ascii characters form number 32 to 126
+# This shift cipher includes all ascii characters form number 32 to 126
 
 # imports
 
