@@ -2,7 +2,10 @@
 
 # imports
 
+#  ********** this package needs to be installed **********
 from langdetect import detect, detect_langs
+#  ********** this package needs to be installed **********
+
 import time
 
 # Constants
@@ -78,14 +81,26 @@ key = 3
 
 encrypted_text = encrypt(plain_text, key)
 decrypted_text = decrypt(encrypted_text, key)
-potential_cracked_text_array, crack_time = brute_force_crack(encrypted_text)
 
 print("Plain text: " + plain_text + "\n")
 print("Encrypted text: " + encrypted_text + "\n")
 print("Decrypted text: "+ decrypted_text + "\n")
-print(f"Potential Cracked texts(crack time: {crack_time}s): \n")
-for i in range(len(potential_cracked_text_array)):
-    print(f"[{i}]--> {potential_cracked_text_array[i]}")
+
+try:
+    potential_cracked_text_array, crack_time = brute_force_crack(encrypted_text)
+
+    print(f"Potential Cracked texts(crack time: {crack_time}s): \n")
+    for i in range(len(potential_cracked_text_array)):
+        print(f"[{i}]--> {potential_cracked_text_array[i]}")
+except:
+    print("""Hello!
+
+You are seeing this message because something went wrong! :( 
+                   
+Be sure to install the langdetect package --> pip install langdetect
+          
+After installation, please try running again! :)
+""")
 
 
     
