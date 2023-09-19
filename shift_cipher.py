@@ -17,6 +17,7 @@ def encrypt(plain_text, key):
     """
     encrypt_text = ""
 
+    # encrypt each letter
     for letter in plain_text:
         encrypt_text += chr(((ord(letter) - 32 + key) % MOD) + 32)
 
@@ -30,6 +31,7 @@ def decrypt(encrypted_text, key):
 
     decrypt_text = ""
 
+    # decrypt each letter
     for letter in encrypted_text:
         decrypt_text += chr(((ord(letter) - 32 - key) % MOD) + 32)
 
