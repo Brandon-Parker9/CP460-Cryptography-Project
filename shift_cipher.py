@@ -10,6 +10,7 @@ import time
 
 # Constants
 MOD = 126-32 + 1
+NORMALIZATION = 32
 
 # Functions
 
@@ -22,7 +23,7 @@ def encrypt(plain_text, key):
 
     # encrypt each letter
     for letter in plain_text:
-        encrypt_text += chr(((ord(letter) - 32 + key) % MOD) + 32)
+        encrypt_text += chr(((ord(letter) - NORMALIZATION + key) % MOD) + NORMALIZATION)
 
     return encrypt_text
 
@@ -36,7 +37,7 @@ def decrypt(encrypted_text, key):
 
     # decrypt each letter
     for letter in encrypted_text:
-        decrypt_text += chr(((ord(letter) - 32 - key) % MOD) + 32)
+        decrypt_text += chr(((ord(letter) - NORMALIZATION - key) % MOD) + NORMALIZATION)
 
     return decrypt_text
 
@@ -54,7 +55,7 @@ def brute_force_crack(encrypted_text):
     # brute force create all the strings possible 
     for letter in encrypted_text:
         for i in range(MOD - 1):
-            all_options_of_original_text[i] += chr(((ord(letter) - 32 - i) % MOD) + 32)
+            all_options_of_original_text[i] += chr(((ord(letter) - NORMALIZATION - i) % MOD) + NORMALIZATION)
 
     #  go through all the possible strings
     for string in all_options_of_original_text:
@@ -101,6 +102,3 @@ Be sure to install the langdetect package --> pip install langdetect
           
 After installation, please try running again! :)
 """)
-
-
-    
