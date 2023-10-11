@@ -131,6 +131,34 @@ def decrypt_LSFR(encrypted_bit_stream, key):
 
     return decrypt_text
 
+def brute_force_crack(encrypted_bit_stream):
+
+    #  used to track attack time
+    start_time = time.time()
+
+    all_options_of_original_text = [""] * (BINARY_EIGHT_ONES + 1)
+    potential_cracked_text = []
+
+    # brute force create all the strings possible 
+    for i in range(BINARY_EIGHT_ONES + 1):
+        all_options_of_original_text[i] = decrypt_LSFR(encrypted_bit_stream, i)
+
+    #  go through all the possible strings
+    for string in all_options_of_original_text:
+        
+        #  detect the languages
+        detected_langs = detect_langs(string)
+        
+        # for each language detected, only select the ones where englich is great than 0.9
+        for lang in detected_langs:
+
+            if lang.lang == "en" and lang.prob > 0.9:
+                potential_cracked_text.append(string)
+    
+    crack_time = round(time.time() - start_time, 2)
+
+    return potential_cracked_text, crack_time
+
 # Demo
 
 plain_text = "hello world, this message was encrypted at some point!"
@@ -146,7 +174,18 @@ print("Plain text: " + plain_text + "\n")
 print(f"Enccrypted Bit Stream: {encrypted_bit_stream:#0b} \n")
 print(f"Decrypted Bit Stream Message: {decrypted_bit_stream} \n")
 
-# for i in range(len(plain_text)//8 + 1):
-#     print(f"Split text: {plain_text[(8*i):(8+(8*i))]} Length: {len(plain_text[(8*i):(8+(8*i))])}")
-#     for letter in plain_text[(8*i):(8+(8*i))]:
-#         print(f"letter: {letter} ASCII Value: {ord(letter)}")
+try:
+    potential_cracked_text_array, crack_time = brute_force_crack(encrypted_bit_stream)
+
+    print(f"Potential Cracked texts(crack time: {crack_time}s): \n")
+    for i in range(len(potential_cracked_text_array)):
+        print(f"[{i}]--> {potential_cracked_text_array[i]}")
+except:
+    print("""Hello!
+
+You are seeing this message because something went wrong! :( 
+                   
+Be sure to install the langdetect package --> pip install langdetect
+          
+After installation, please try running again! :)
+""")
