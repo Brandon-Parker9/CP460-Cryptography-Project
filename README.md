@@ -29,6 +29,9 @@ All the functions described above are demonstrated at the bottom of the file so 
 
 ## Block Cipher
 
+For the last time we implement a brute force attack, but we have many more keys to go through. This function also uses the langdetect package to sort through all the messages and return a list of ones that are believed to be English. After the function has completed it returns the list of potential messages and the amount of time it too to run through all the keys to show just how fast it can be broken.
+
+All the functions described above are demonstrated at the bottom of the file so all you have to do is run the file to see it in action!
 
 ## Contributers
 

@@ -3,7 +3,7 @@
 # imports
 
 #  ********** this package needs to be installed **********
-from langdetect import detect, detect_langs
+from langdetect import detect_langs
 #  ********** this package needs to be installed **********
 
 import time
@@ -83,6 +83,7 @@ key = 3
 encrypted_text = encrypt(plain_text, key)
 decrypted_text = decrypt(encrypted_text, key)
 
+print("********** Demo **********\n")
 print("Plain text: " + plain_text + "\n")
 print("Encrypted text: " + encrypted_text + "\n")
 print("Decrypted text: "+ decrypted_text + "\n")

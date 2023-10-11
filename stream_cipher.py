@@ -7,23 +7,24 @@ This stream cipher:
 # imports
 
 #  ********** this package needs to be installed **********
-from langdetect import detect, detect_langs
+from langdetect import detect_langs
 #  ********** this package needs to be installed **********
 
 import time
 
 # Constants
-MOD = 126-32 + 1
-NORMALIZATION = 32
 BINARY_EIGHT_ONES = 0b11111111
 
 # Functions
 
-def generate_eight_bit_keystream(key):
+def generate_keystream(key, length):
+    """
+    Genertes a keystream of length asked for and updates the key
+    """
 
-    eight_bit_keystream = 0
+    keystream = 0
 
-    for i in range(8):
+    for i in range(length):
 
         #  get the two values the need to XOR together based on the choosen LFSR
         x_0 = key & 0b00000001
@@ -32,23 +33,17 @@ def generate_eight_bit_keystream(key):
         # XOR the two inputs that go back into the LFSR
         shift_bit = x_0 ^ (x_1 >> 1)
 
-        # ***** Debug *****
-        # print(f"x^1 Number: {x_1} x^1 Binary: {bin(x_1)}  x^0 Number: {x_0} x^0 Binary: {bin(x_0)} shift_bit Number: {shift_bit} shift_bit Binary: {bin(shift_bit)}")
-
         # Update the key by shifting to the right 1 bit and adding the shift bit to the front
         key = (key >> 1) + (shift_bit << 7)
 
-        # make a keystream that is 8 bits long based on the LFSR
-        eight_bit_keystream += (shift_bit << i)
+        # make a keystream that is based on the LFSR
+        keystream += (shift_bit << i)
 
-        # ***** Debug *****
-            # print(f"Key: {key:#010b} Shifted out bit: {shift_bit}")f
-
-    return eight_bit_keystream, key
+    return keystream, key
 
 def encrypt_LFSR(plain_text, key):
     """
-    Simple function to encrypt the text by using an LFSR to based on the key value
+    Simple function to encrypt the text one characer at a time by using an LFSR to based on the key value
     """
     encrypt_bit_stream = 0
     letter_count = 0
@@ -59,7 +54,7 @@ def encrypt_LFSR(plain_text, key):
         # 8 bit key stream to simplifiy encryption steps later
         letter_key_stream = 0b00000000
         
-        letter_key_stream, key = generate_eight_bit_keystream(key)
+        letter_key_stream, key = generate_keystream(key, 8)
 
         # XOR the character with the 8 bits of the the key stream
         encrypt_character = ord(letter) ^ letter_key_stream
@@ -92,7 +87,7 @@ def decrypt_LSFR(encrypted_bit_stream, key):
         eight_bits_to_decrypt = encrypted_bit_stream & BINARY_EIGHT_ONES
 
         # Generate the letter keystream based on the key
-        letter_key_stream, key = generate_eight_bit_keystream(key)
+        letter_key_stream, key = generate_keystream(key, 8)
 
         # XOR the character with the 8 bits of the the key stream
         decrypt_character = eight_bits_to_decrypt ^ letter_key_stream
@@ -138,16 +133,13 @@ def brute_force_crack(encrypted_bit_stream):
 plain_text = "hello world, this message was encrypted at some point!"
 key = 0b000000001
 
-print("Plain text: " + plain_text + "\n")
-
 encrypted_bit_stream = encrypt_LFSR(plain_text, key)
-print(f"Enccrypted Bit Stream: {encrypted_bit_stream:#0b} \n")
-
-
 decrypted_bit_stream = decrypt_LSFR(encrypted_bit_stream, key)
-print(f"Decrypted Bit Stream Message: {decrypted_bit_stream} \n")
 
-potential_cracked_text_array, crack_time = brute_force_crack(encrypted_bit_stream)
+print("********** Demo **********\n")
+print("Plain text: " + plain_text + "\n")
+print(f"Enccrypted Bit Stream: {encrypted_bit_stream:#0b} \n")
+print(f"Decrypted Bit Stream Message: {decrypted_bit_stream} \n")
 
 try:
     potential_cracked_text_array, crack_time = brute_force_crack(encrypted_bit_stream)
