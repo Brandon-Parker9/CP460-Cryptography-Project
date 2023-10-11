@@ -29,6 +29,8 @@ All the functions described above are demonstrated at the bottom of the file so 
 
 ## Block Cipher
 
+The block cipher is very similar to the stream cipher where the only difference is it works on 8 characters at a time instead of 1. This means the key and plain text are both 64 bits when they are XORed together. The encrypt and decrypt functions both work the same way.
+
 For the last time we implement a brute force attack, but we have many more keys to go through. This function also uses the langdetect package to sort through all the messages and return a list of ones that are believed to be English. After the function has completed it returns the list of potential messages and the amount of time it too to run through all the keys to show just how fast it can be broken.
 
 All the functions described above are demonstrated at the bottom of the file so all you have to do is run the file to see it in action!
