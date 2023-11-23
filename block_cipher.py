@@ -1,8 +1,8 @@
 """
 This block cipher:
-- includes all ascii characters form number 32 to 126
+- Includes all ascii characters form number 32 to 126
 - Will be using the following LFSR x^8+x^1+1
-- it will encrypt 8 characters at a time totalling 64 bits encryted at a time
+- It will encrypt 8 characters at a time totalling 64 bits encryted at a time
 """
 # imports
 
@@ -79,14 +79,6 @@ def encrypt_LFSR(plain_text, key):
         # XOR the character with the 8 bits of the the key stream
         eight_character_block_encrypted = eight_character_block_of_bits ^ block_key_stream
 
-        # debug
-        # print("*****")
-        # print(f"bit stream: {eight_character_block_of_bits:#066b}")
-        # print(f"key stream: {block_key_stream:#066b}")
-        # print(f"encr block: {eight_character_block_encrypted:#066b}")
-        # print("*****")
-
-
         # shift the eight character encrypted block to the left as many blocks we have proccessed
         eight_character_block_encrypted = eight_character_block_encrypted << (64 * i)
         
@@ -159,7 +151,7 @@ def brute_force_crack(encrypted_bit_stream):
 
     return potential_cracked_text, crack_time
 
-# Demo
+######################### Demo #########################
 
 plain_text = "hello world, this message was encrypted at some point!"
 key = 0b000000001

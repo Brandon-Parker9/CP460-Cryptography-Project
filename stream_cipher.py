@@ -128,7 +128,7 @@ def brute_force_crack(encrypted_bit_stream):
 
     return potential_cracked_text, crack_time
 
-# Demo
+######################### Demo #########################
 
 plain_text = "hello world, this message was encrypted at some point!"
 key = 0b000000001

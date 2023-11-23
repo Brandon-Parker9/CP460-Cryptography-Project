@@ -1,4 +1,7 @@
-# This shift cipher includes all ascii characters form number 32 to 126
+"""
+This shift cipher:
+- includes all ascii characters form number 32 to 126
+"""
 
 # imports
 
@@ -75,7 +78,7 @@ def brute_force_crack(encrypted_text):
     return potential_cracked_text, crack_time
 
 
-# Demo
+######################### Demo #########################
 
 plain_text = "hello world, this message was encrypted at some point!"
 key = 3
